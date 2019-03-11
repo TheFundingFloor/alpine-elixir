@@ -1,3 +1,4 @@
+
 FROM alpine:3.9
 
 MAINTAINER Paul Schoenfelder <paulschoenfelder@gmail.com>
@@ -6,7 +7,7 @@ MAINTAINER Paul Schoenfelder <paulschoenfelder@gmail.com>
 # is updated with the current date. It will force refresh of all
 # of the base images and things like `apt-get update` won't be using
 # old cached versions when the Dockerfile is built.
-ENV REFRESHED_AT=2019-01-31 \
+ENV REFRESHED_AT=2019-03-10 \
     LANG=en_US.UTF-8 \
     HOME=/opt/app/ \
     # Set this so that CTRL+G works properly
@@ -32,8 +33,10 @@ RUN \
     apk add --no-cache --update \
       bash \
       ca-certificates \
+      openssl \
       openssl-dev \
       ncurses-dev \
+      erlang-crypto \
       unixodbc-dev \
       zlib-dev && \
     # Install Erlang/OTP build deps
@@ -75,6 +78,7 @@ RUN \
       --enable-threads \
       --enable-shared-zlib \
       --enable-ssl=dynamic-ssl-lib \
+      --with-ssl \
       --enable-hipe && \
       # Build
       make -j4 && make install && \
